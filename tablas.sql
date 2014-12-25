@@ -15,10 +15,10 @@ FOREIGN KEY (Organismo) REFERENCES SINONIMOS(Oficial));
 ----------- PFAM DB 1.b -----------
 
 CREATE TABLE PFAM (
-ID VARCHAR(25) NOT NULL,
-accnumber VARCHAR(10) NOT NULL,
-description VARCHAR(1000),
-database references VARCHAR (10) NOT NULL,
+ID VARCHAR(15) NOT NULL,
+accnumber VARCHAR(8) NOT NULL,
+description VARCHAR(80),
+interpro references VARCHAR (10),
 PRIMARY KEY (accnumber),
 UNIQUE (ID)
 );
