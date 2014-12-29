@@ -38,6 +38,7 @@ def parseFastaEntry(fastaEntry):
 	useless = attributes[0]
 	sinOrganism = attributes[1]
 	attributes[2] = attributes[2].rstrip(']').lstrip('[') #see lstrip and rstrip help
+	nameOrganism = attributes[2]
 	proteinId = attributes[3]
 	finalText = parseSeqAndDescription(attributes[4])
 	del attributes[4] #deleted to insert the right ones
