@@ -3,7 +3,7 @@
 
 #Authors: Pablo Vicente Munuera and David Gómez Sánchez
 
-#
+#Execution: python3.4 main.py Psehy1_GeneCatalog_proteins_20140829.aa.fasta 
 
 #Execution
 
@@ -23,23 +23,26 @@ def readingFile(fileName):
 	return open(str(fileName)) #posible excepción?
 
 def parseFastaEntry(fastaEntry):
-	print(fastaEntry + "\n")
+	print(fastaEntry)
 
 
 def parseMultiFasta(fasta) :
 	fastaEntries = fasta.split(">")
-	cont = 0
+	del fastaEntries[0]
+	cont = 1
 	for fastaEntry in fastaEntries :
 		print("FastaEntry ", str(cont))
 		parseFastaEntry(fastaEntry)
 		cont+=1
+		#if(cont==5): #for the proper visualization of the five first elements
+			#break
 
 
 
 
 if len(sys.argv)>1 :
 	for infile in sys.argv[1:]:
-		fasta = readingFile(infile)
+		fasta = readingFile(infile).read()
 		parseMultiFasta(fasta)
 
 else :
