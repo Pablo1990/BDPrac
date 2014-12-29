@@ -14,3 +14,23 @@ dbhost='localhost'	# El servidor, en este caso vuestro portatil
 dbname='masterdb'	# El nombre de la base de datos, que tendreis que cambiarlo
 dbuser='masteruser'	# Vuestro nombre de usuario
 dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERIAMOS PONER UNA CONTRASEÑA EN EL PROGRAMA
+
+def readingFile(fileName):
+	return open(str(fileName)) #posible excepción?
+
+def parseFastaEntry(fastaRow):
+	
+
+def parseMultiFasta(fasta) :
+	
+
+
+
+
+if len(sys.argv)>1 :
+	for infile in sys.argv[1:]:
+		fasta = readingFile(infile)
+		parseMultiFasta(fasta)
+
+else :
+	print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
