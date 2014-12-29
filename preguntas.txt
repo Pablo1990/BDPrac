@@ -3,3 +3,5 @@
 - http://manpages.ubuntu.com/manpages/natty/man1/hmmscan.1.html - usage of hmmscan
 - Dabu: b, 2.1
 - Pablo: a, 2.2
+
+- Documentar código : https://docs.python.org/devguide/documenting.html

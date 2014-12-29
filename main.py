@@ -3,6 +3,10 @@
 
 #Authors: Pablo Vicente Munuera and David Gómez Sánchez
 
+#
+
+#Execution
+
 import sys
 import re
 import psycopg2 as dbi #importo un modulo y le doy un alias, importante para migrar codigo entre gestores de bases de datos
@@ -18,11 +22,17 @@ dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERI
 def readingFile(fileName):
 	return open(str(fileName)) #posible excepción?
 
-def parseFastaEntry(fastaRow):
-	
+def parseFastaEntry(fastaEntry):
+	print(fastaEntry + "\n")
+
 
 def parseMultiFasta(fasta) :
-	
+	fastaEntries = fasta.split(">")
+	cont = 0
+	for fastaEntry in fastaEntries :
+		print("FastaEntry ", str(cont))
+		parseFastaEntry(fastaEntry)
+		cont+=1
 
 
 
