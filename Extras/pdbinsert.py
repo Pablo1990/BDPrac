@@ -16,7 +16,7 @@ Estas variables globales contienen los parÃ¡metros de conexiÃ³n a la base de
 dbhost='localhost'	# El servidor, en este caso vuestro portÃ¡til
 dbname='masterdb'	# El nombre de la base de datos, que tendrÃ©is que cambiarlo
 dbuser='masteruser'	# Vuestro nombre de usuario
-dbpass='n@ch05069'	# La contraseÃ±a para vuestro nombre de usuario NUNCA DEBERIAMOS PONER UNA CONTRASEÑA EN EL PROGRAMA
+dbpass='masterpass'	# La contraseÃ±a para vuestro nombre de usuario NUNCA DEBERIAMOS PONER UNA CONTRASEÑA EN EL PROGRAMA
 
 
 class SWParser(object): #crea la clase con nombre y objeto
@@ -89,12 +89,11 @@ class SWParser(object): #crea la clase con nombre y objeto
 						# ExtracciÃ³n del peso molecular
 						# y comienzo de secuencia
 						created = seqmatch.group(2)
-                        pdbcode = seqmatch.group(3)
-						
+						pdbcode = seqmatch.group(3)
 						readingseq = True
-					elif idmatch is not None:
+                    #elif idmatch is not None:
 						# Identificador
-						title = idmatch.group(1)
+						#title = idmatch.group(1)
 					#elif dtmatch is not None:
 						## Fecha de la Ãºltima actualizaciÃ³n
 						#lastdate = dtmatch.group(1)
