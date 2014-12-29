@@ -19,19 +19,17 @@ ID VARCHAR(15) NOT NULL,
 accnumber VARCHAR(8) NOT NULL,
 description VARCHAR(80),
 interpro references VARCHAR (10),
-PRIMARY KEY (accnumber),
-UNIQUE (ID)
+PRIMARY KEY (ID),
+UNIQUE (accnumber)
 );
 
 CREATE TABLE ACCNUMBERS (
-main_accnumber VARCHAR(10) NOT NULL,
+main_accnumber VARCHAR(10),
 accnumber VARCHAR(10) NOT NULL,
-PRIMARY KEY (main_accnumber, accnumber),
+PRIMARY KEY (main_accnumber),
 FOREIGN KEY (main_accnumber),
 REFERENCES PFAM (accnumber)
 );
-
-
 
 
 ----------- HMMER DB 1.c ----------- 
