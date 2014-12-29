@@ -4,4 +4,4 @@
 - Dabu: b, 2.1
 - Pablo: a, 2.2
 
-- Documentar código : https://docs.python.org/devguide/documenting.html
+- Documentar código : http://matplotlib.org/sampledoc/getting_started.html#installing-your-doc-directory

@@ -5,8 +5,6 @@
 
 #Execution: python3.4 main.py Psehy1_GeneCatalog_proteins_20140829.aa.fasta 
 
-#Execution
-
 import sys
 import re
 import psycopg2 as dbi #importo un modulo y le doy un alias, importante para migrar codigo entre gestores de bases de datos
@@ -22,9 +20,36 @@ dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERI
 def readingFile(fileName):
 	return open(str(fileName)) #posible excepción?
 
-def parseFastaEntry(fastaEntry):
-	print(fastaEntry)
+def parseSeqAndDescription(text) :
+	aux = text.split("\n")
+	sequence = ""
+	for i in range(1,len(aux)) :
+		sequence+=aux[i]
 
+	#print(sequence)
+	finalText = []
+	finalText.append(aux[0])
+	finalText.append(sequence)
+	return finalText
+
+def parseFastaEntry(fastaEntry):
+	#print(fastaEntry)
+	attributes = fastaEntry.split("|")
+	useless = attributes[0]
+	sinOrganism = attributes[1]
+	attributes[2] = attributes[2].rstrip(']').lstrip('[') #see lstrip and rstrip help
+	proteinId = attributes[3]
+	finalText = parseSeqAndDescription(attributes[4])
+	del attributes[4] #deleted to insert the right ones
+	description = finalText[0]
+	sequence = finalText[1]
+	attributes.append(description)
+	attributes.append(sequence)
+	print(attributes)
+
+
+def insertIntoDB(attributes):
+	print("Insert into DB")
 
 def parseMultiFasta(fasta) :
 	fastaEntries = fasta.split(">")
@@ -33,9 +58,10 @@ def parseMultiFasta(fasta) :
 	for fastaEntry in fastaEntries :
 		print("FastaEntry ", str(cont))
 		parseFastaEntry(fastaEntry)
+
 		cont+=1
-		#if(cont==5): #for the proper visualization of the five first elements
-			#break
+		if(cont==2): #for the proper visualization of the five first elements
+			break
 
 
 
