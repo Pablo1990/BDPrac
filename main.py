@@ -35,23 +35,41 @@ def parseSeqAndDescription(text) :
 def parseFastaEntry(fastaEntry):
 	#print(fastaEntry)
 	attributes = fastaEntry.split("|")
-	useless = attributes[0]
-	sinOrganism = attributes[1]
 	attributes[2] = attributes[2].rstrip(']').lstrip('[') #see lstrip and rstrip help
-	nameOrganism = attributes[2]
-	proteinId = attributes[3]
+	
 	finalText = parseSeqAndDescription(attributes[4])
 	del attributes[4] #deleted to insert the right ones
-	description = finalText[0]
-	sequence = finalText[1]
+
 	attributes.append(description)
 	attributes.append(sequence)
+
 	print(attributes)
 	return attributes
 
 
 def insertIntoDB(attributes, conn):
 	print("Insert into DB")
+	try:
+		with conn.cursor() as cur:
+			'''
+			useless = attributes[0]
+			sinOrganism = attributes[1]
+			nameOrganism = attributes[2]
+			proteinId = attributes[3]
+			description = attributes[4]
+			sequence = attributes[5]
+			'''
+			cur.execute('INSERT INTO JGI VALUES (%s,%s,%s,%s,%s,%s)',
+				(attributes[3],attributes[2], attributes[5], attributes[4], attributes[1]))
+	except dbi.Error as e:
+		print("Error al insertar en la base de datos: ",e.diag.message_primary,file=sys.stderr)
+		raise
+	except IOError as e:
+		print("Error de lectura de fichero {0}: {1}".format(e.errno, e.strerror),file=sys.stderr)
+		#raise
+	except:
+		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
+		raise
 
 def parseMultiFasta(fasta, conn) :
 	fastaEntries = fasta.split(">")
