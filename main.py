@@ -47,21 +47,23 @@ def parseFastaEntry(fastaEntry):
 	attributes.append(description)
 	attributes.append(sequence)
 	print(attributes)
+	return attributes
 
 
-def insertIntoDB(attributes):
+def insertIntoDB(attributes, conn):
 	print("Insert into DB")
 
-def parseMultiFasta(fasta) :
+def parseMultiFasta(fasta, conn) :
 	fastaEntries = fasta.split(">")
 	del fastaEntries[0]
 	cont = 1
 	for fastaEntry in fastaEntries :
 		print("FastaEntry ", str(cont))
-		parseFastaEntry(fastaEntry)
+		attributes = parseFastaEntry(fastaEntry)
+		insertIntoDB(attributes)
 
 		cont+=1
-		if(cont==2): #for the proper visualization of the five first elements
+		if(cont>2): #for the proper visualization of the five first elements
 			break
 
 
@@ -69,8 +71,18 @@ def parseMultiFasta(fasta) :
 
 if len(sys.argv)>1 :
 	for infile in sys.argv[1:]:
-		fasta = readingFile(infile).read()
-		parseMultiFasta(fasta)
+		try:
+			conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
+			# Esto sirve para que cada sentencia se ejecute inmediatamente
+			#conn.autocommit = True
+			print("Conexion a BD: correcta")
+		except dbi.Error as e:
+			print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
+			raise
+
+		with conn:
+			fasta = readingFile(infile).read()
+			parseMultiFasta(fasta, conn)
 
 else :
 	print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
