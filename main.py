@@ -47,8 +47,8 @@ def parseFastaEntry(fastaEntry):
 	return attributes
 
 
-def insertIntoDB(attributes, conn):
-	print("Inserting into DB...")
+def insertIntoDB(attributes, conn, cont):
+	#print("Inserting into DB...")
 	try:
 		with conn.cursor() as cur:
 			'''
@@ -61,14 +61,17 @@ def insertIntoDB(attributes, conn):
 			'''
 			cur.execute('INSERT INTO JGI VALUES (%s,%s,%s,%s,%s)',
 				(attributes[3],attributes[2], attributes[5].strip(), attributes[4], attributes[1]))
-			print ("All correct")
+			#print ("All correct")
 	except dbi.Error as e:
+		print("FastaEntry ", str(cont))
 		print("Error al insertar en la base de datos: ",e.diag.message_primary,file=sys.stderr)
 		raise
 	except IOError as e:
+		print("FastaEntry ", str(cont))
 		print("Error de lectura de fichero {0}: {1}".format(e.errno, e.strerror),file=sys.stderr)
 		#raise
 	except:
+		print("FastaEntry ", str(cont))
 		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
 		raise
 
@@ -77,12 +80,12 @@ def parseMultiFasta(fasta, conn) :
 	del fastaEntries[0]
 	cont = 1
 	for fastaEntry in fastaEntries :
-		print("FastaEntry ", str(cont))
+		#print("FastaEntry ", str(cont))
 		attributes = parseFastaEntry(fastaEntry)
-		insertIntoDB(attributes, conn)
+		insertIntoDB(attributes, conn, cont)
 
 		cont+=1
-		#if(cont>=2): #for the proper visualization of the five first elements
+		#if(cont>=100): #for the proper visualization of the five first elements
 			#break
 
 
@@ -94,7 +97,7 @@ if len(sys.argv)>1 :
 			conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
 			# Esto sirve para que cada sentencia se ejecute inmediatamente
 			#conn.autocommit = True
-			print("Conexion a BD: correcta")
+			#print("Conexion a BD: correcta")
 		except dbi.Error as e:
 			print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
 			raise
@@ -102,6 +105,7 @@ if len(sys.argv)>1 :
 		with conn:
 			fasta = readingFile(infile).read()
 			parseMultiFasta(fasta, conn)
+			print("Done")
 
 else :
 	print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
