@@ -40,8 +40,8 @@ def parseFastaEntry(fastaEntry):
 	finalText = parseSeqAndDescription(attributes[4])
 	del attributes[4] #deleted to insert the right ones
 
-	attributes.append(description)
-	attributes.append(sequence)
+	attributes.append(finalText[0])
+	attributes.append(finalText[1])
 
 	print(attributes)
 	return attributes
@@ -78,7 +78,7 @@ def parseMultiFasta(fasta, conn) :
 	for fastaEntry in fastaEntries :
 		print("FastaEntry ", str(cont))
 		attributes = parseFastaEntry(fastaEntry)
-		insertIntoDB(attributes)
+		insertIntoDB(attributes, conn)
 
 		cont+=1
 		if(cont>2): #for the proper visualization of the five first elements
