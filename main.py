@@ -43,12 +43,12 @@ def parseFastaEntry(fastaEntry):
 	attributes.append(finalText[0])
 	attributes.append(finalText[1])
 
-	print(attributes)
+	#print(attributes)
 	return attributes
 
 
 def insertIntoDB(attributes, conn):
-	print("Insert into DB")
+	print("Inserting into DB...")
 	try:
 		with conn.cursor() as cur:
 			'''
@@ -59,8 +59,9 @@ def insertIntoDB(attributes, conn):
 			description = attributes[4]
 			sequence = attributes[5]
 			'''
-			cur.execute('INSERT INTO JGI VALUES (%s,%s,%s,%s,%s,%s)',
-				(attributes[3],attributes[2], attributes[5], attributes[4], attributes[1]))
+			cur.execute('INSERT INTO JGI VALUES (%s,%s,%s,%s,%s)',
+				(attributes[3],attributes[2], attributes[5].strip(), attributes[4], attributes[1]))
+			print ("All correct")
 	except dbi.Error as e:
 		print("Error al insertar en la base de datos: ",e.diag.message_primary,file=sys.stderr)
 		raise
@@ -81,8 +82,8 @@ def parseMultiFasta(fasta, conn) :
 		insertIntoDB(attributes, conn)
 
 		cont+=1
-		if(cont>2): #for the proper visualization of the five first elements
-			break
+		#if(cont>=2): #for the proper visualization of the five first elements
+			#break
 
 
 
