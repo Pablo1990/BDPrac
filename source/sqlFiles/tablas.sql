@@ -6,11 +6,11 @@
 
 CREATE TABLE JGI 
 (ID int,
-organismo varchar (200),
+organism varchar (200),
 secuencia Text NOT NULL,
 descripcion Text,
 sinonimo varchar(200) NOT NULL,
-PRIMARY KEY (ID, organismo)
+PRIMARY KEY (ID, organism)
 );
 
 ----------- PFAM DB 1.b -----------
@@ -35,21 +35,29 @@ REFERENCES PFAM(accnumber)
 ----------- HMMER DB 1.c ----------- 
 
 CREATE TABLE HMMER (
-	ID int PRIMARY KEY,
+	ID int,
+	organism VARCHAR(200),
 	description text,
-	species VARCHAR(40),
-	evalue float
+	evalue float,
+	PRIMARY KEY (ID, organism)
 );
 
 CREATE TABLE MOTIFS (
 	IDTarget int, --Esto esta bien?
 	IDQuery int,
-	start int NOT NULL,
-	end int NOT NULL,
-	score int,
-	evalueInd float,
-	PRIMARY KEY(IDQuery, IDTarget),
-	FOREIGN KEY (IDQuery) REFERENCES JGI(ID),
-	FOREIGN KEY (IDTarget) REFERENCES HMMER(ID)
+	OrganismQuery VARCHAR(200),
+	OrganismTarget VARCHAR(200),
+	motif serial UNIQUE,
+	PRIMARY KEY(IDQuery, OrganismQuery, IDTarget, OrganismTarget),
+	FOREIGN KEY (IDQuery, OrganismQuery) REFERENCES JGI(ID, organism),
+	FOREIGN KEY (IDTarget, OrganismTarget) REFERENCES HMMER(ID, organism)
 );
 
+CREATE TABLE MOTIF (
+	ID serial PRIMARY KEY,
+	startAA int NOT NULL,
+	endAA int NOT NULL,
+	score int,
+	evalueInd float,
+	FOREIGN KEY (ID) REFERENCES MOTIFS(motif)
+);
