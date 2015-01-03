@@ -91,8 +91,8 @@ def parseMultiFasta(fasta, conn) :
 
 
 
-if len(sys.argv)>1 :
-	for infile in sys.argv[1:]:
+if len(sys.argv)!=1 :
+	for infile in sys.argv[1]:
 		try:
 			conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
 			# Esto sirve para que cada sentencia se ejecute inmediatamente
@@ -108,4 +108,4 @@ if len(sys.argv)>1 :
 			print("Done")
 
 else :
-	print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
+	print("Número incorrecto de argumentos: Debe pasarle un fichero fasta")
