@@ -5,3 +5,4 @@
 - Pablo: a, 2.2
 
 - Documentar código : http://matplotlib.org/sampledoc/getting_started.html#installing-your-doc-directory
+https://raw.githubusercontent.com/matplotlib/sampledoc/master/extensions.rst

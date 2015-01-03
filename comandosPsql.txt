@@ -1,7 +1,0 @@
-
-psql -h localhost masterdb masteruser
-
---------
-
-\dt -> see all the tables
-
