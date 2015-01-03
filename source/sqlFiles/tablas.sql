@@ -16,7 +16,7 @@ PRIMARY KEY (ID, organismo)
 ----------- PFAM DB 1.b -----------
 
 CREATE TABLE PFAM (
-ID VARCHAR(15) NOT NULL,
+ID VARCHAR(15),
 accnumber VARCHAR(8) NOT NULL,
 description VARCHAR(80),
 interpro VARCHAR (10),
@@ -33,3 +33,23 @@ REFERENCES PFAM(accnumber)
 
 
 ----------- HMMER DB 1.c ----------- 
+
+CREATE TABLE HMMER (
+	ID int PRIMARY KEY,
+	description text,
+	species VARCHAR(40),
+	evalue float
+);
+
+CREATE TABLE MOTIFS (
+	IDTarget int, --Esto esta bien?
+	IDQuery int,
+	start int NOT NULL,
+	end int NOT NULL,
+	score int,
+	evalueInd float,
+	PRIMARY KEY(IDQuery, IDTarget),
+	FOREIGN KEY (IDQuery) REFERENCES JGI(ID),
+	FOREIGN KEY (IDTarget) REFERENCES HMMER(ID)
+);
+

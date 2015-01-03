@@ -3,4 +3,4 @@
 
 #Authors: Pablo Vicente Munuera and David Gómez Sánchez
 
-#Execution:
+#Execution: python3 hmmscanExecution.py 
