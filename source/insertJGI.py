@@ -3,7 +3,7 @@
 
 #Authors: Pablo Vicente Munuera and David Gómez Sánchez
 
-#Execution: python3.4 main.py Psehy1_GeneCatalog_proteins_20140829.aa.fasta 
+#Execution: python3.4 main.py Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta 
 
 import sys
 import re

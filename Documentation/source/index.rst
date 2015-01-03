@@ -6,14 +6,21 @@
 Bienvenido a la documentación de prácticas de BD!
 ==================================
 
-Contents:
+Contents: Soy sexy
+
+.. py:function:: spam(eggs)
+	ham(eggs)
+
+	Spam or ham the foo.
 
 .. toctree::
    :maxdepth: 2
 
 
 
-Indices and tables
+
+
+Indices
 ==================
 
 * :ref:`genindex`
