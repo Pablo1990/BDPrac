@@ -3,7 +3,7 @@
 
 #Authors: Pablo Vicente Munuera and David Gómez Sánchez
 
-#Execution: python3.4 insertJGI.py Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta 
+#Execution: python3.4 insertJGI.py ../Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta 
 
 import sys
 import re
@@ -89,9 +89,8 @@ def parseMultiFasta(fasta, conn) :
 			#break
 
 
-def main():
-	infile = input("Inserte fichero fasta: ")
-	print("\nProcesando...")
+def main(infile):
+	print("\nProcesando", infile)
 	try:
 		conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
 		# Esto sirve para que cada sentencia se ejecute inmediatamente
@@ -107,4 +106,7 @@ def main():
 		print("\nDone!\n")
 
 if __name__ == "__main__":
-    sys.exit(main())
+	if len(sys.argv)==1 :
+		sys.exit(main(sys.argv[1]))
+	else :
+		print("Error en el número de parámetros (solo 1).")
