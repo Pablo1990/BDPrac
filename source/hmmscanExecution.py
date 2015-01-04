@@ -31,3 +31,14 @@ hmmpress - prepare an HMM database for hmmscan
 hmmpress [options] <hmmfile>
 '''
 
+'''
+Pasos: hmmpress 3.- hmmscan ?
+
+'''
+
+from subprocess import call
+
+#print(call(["ls", "-l"]))
+
+
+
