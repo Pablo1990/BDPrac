@@ -42,22 +42,22 @@ CREATE TABLE HMMER (
 	PRIMARY KEY (ID, organism)
 );
 
-CREATE TABLE MOTIFS (
+CREATE TABLE DOMAINS (
 	IDTarget int, --Esto esta bien?
 	IDQuery int,
 	OrganismQuery VARCHAR(200),
 	OrganismTarget VARCHAR(200),
-	motif serial UNIQUE,
+	domain serial UNIQUE,
 	PRIMARY KEY(IDQuery, OrganismQuery, IDTarget, OrganismTarget),
 	FOREIGN KEY (IDQuery, OrganismQuery) REFERENCES JGI(ID, organism),
 	FOREIGN KEY (IDTarget, OrganismTarget) REFERENCES HMMER(ID, organism)
 );
 
-CREATE TABLE MOTIF (
+CREATE TABLE DOMAIN (
 	ID serial PRIMARY KEY,
 	startAA int NOT NULL,
 	endAA int NOT NULL,
 	score int,
 	evalueInd float,
-	FOREIGN KEY (ID) REFERENCES MOTIFS(motif)
+	FOREIGN KEY (ID) REFERENCES DOMAINS(domain)
 );
