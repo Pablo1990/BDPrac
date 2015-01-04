@@ -26,6 +26,8 @@ while(option!=0) :
 		insertJGI.main()
 	elif(option==2) :
 		print("opcion2")
+	elif(option==3) :
+		print("opcion3")
 	else :
 		print("MEEEECCCC! Escoja otra opción")
 
