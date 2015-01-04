@@ -23,7 +23,8 @@ while(option!=0) :
 	print("Resultados:")
 
 	if(option==1) :
-		insertJGI.main()
+		infile = raw_input("Inserte fichero fasta: ")
+		insertJGI.main(infile)
 	elif(option==2) :
 		print("opcion2")
 	elif(option==3) :
