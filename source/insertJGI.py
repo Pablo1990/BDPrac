@@ -3,7 +3,7 @@
 
 #Authors: Pablo Vicente Munuera and David Gómez Sánchez
 
-#Execution: python3.4 main.py Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta 
+#Execution: python3.4 insertJGI.py Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta 
 
 import sys
 import re
@@ -89,23 +89,22 @@ def parseMultiFasta(fasta, conn) :
 			#break
 
 
+def main():
+	infile = input("Inserte fichero fasta: ")
+	print("\nProcesando...")
+	try:
+		conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
+		# Esto sirve para que cada sentencia se ejecute inmediatamente
+		#conn.autocommit = True
+		#print("Conexion a BD: correcta")
+	except dbi.Error as e:
+		print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
+		raise
 
+	with conn:
+		fasta = readingFile(infile).read()
+		parseMultiFasta(fasta, conn)
+		print("\nDone!\n")
 
-if len(sys.argv)!=1 :
-	for infile in sys.argv[1]:
-		try:
-			conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
-			# Esto sirve para que cada sentencia se ejecute inmediatamente
-			#conn.autocommit = True
-			#print("Conexion a BD: correcta")
-		except dbi.Error as e:
-			print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
-			raise
-
-		with conn:
-			fasta = readingFile(infile).read()
-			parseMultiFasta(fasta, conn)
-			print("Done")
-
-else :
-	print("Número incorrecto de argumentos: Debe pasarle un fichero fasta")
+if __name__ == "__main__":
+    sys.exit(main())
