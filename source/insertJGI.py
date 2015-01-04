@@ -90,7 +90,7 @@ def parseMultiFasta(fasta, conn) :
 
 
 def main(infile):
-	print("\nProcesando...")
+	print("\nProcesando", infile)
 	try:
 		conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
 		# Esto sirve para que cada sentencia se ejecute inmediatamente
@@ -106,7 +106,7 @@ def main(infile):
 		print("\nDone!\n")
 
 if __name__ == "__main__":
-	if len(sys.argv)>1 :
+	if len(sys.argv)==1 :
 		sys.exit(main(sys.argv[1]))
 	else :
-		print("Error en el número de parámetros.")
+		print("Error en el número de parámetros (solo 1).")
