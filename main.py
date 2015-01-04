@@ -8,6 +8,7 @@
 from source import insertJGI
 
 print("Bienvenido/s a la práctica de BD\n")
+print("Authors: David Gómez Sánchez and Pablo Vicente Munuera\n")
 
 option = 1
 while(option!='0') :
