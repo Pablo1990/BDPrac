@@ -5,3 +5,11 @@ psql -h localhost masterdb masteruser
 
 \dt -> see all the tables
 
+
+\i -> execute
+
+\? -> help
+
+\q -> quit
+
+\o (file) -> output
