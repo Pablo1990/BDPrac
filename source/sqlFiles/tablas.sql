@@ -35,7 +35,7 @@ REFERENCES PFAM(accnumber)
 ----------- HMMER DB 1.c ----------- 
 
 CREATE TABLE HMMER (
-	ID int,
+	ID varchar(40),
 	organism VARCHAR(200),
 	description text,
 	evalue float,
@@ -43,14 +43,15 @@ CREATE TABLE HMMER (
 );
 
 CREATE TABLE DOMAINS (
-	IDTarget int, --Esto esta bien?
-	IDQuery int,
+	IDTarget varchar(40), --Esto esta bien?
+	IDQuery varchar(40),
 	OrganismQuery VARCHAR(200),
 	OrganismTarget VARCHAR(200),
 	domain serial UNIQUE,
 	PRIMARY KEY(IDQuery, OrganismQuery, IDTarget, OrganismTarget),
 	FOREIGN KEY (IDQuery, OrganismQuery) REFERENCES JGI(ID, organism),
-	FOREIGN KEY (IDTarget, OrganismTarget) REFERENCES HMMER(ID, organism)
+	FOREIGN KEY (IDTarget, OrganismTarget) REFERENCES HMMER(ID, organism),
+	FOREIGN KEY (domain) REFERENCES DOMAIN(ID)
 );
 
 CREATE TABLE DOMAIN (
@@ -59,5 +60,4 @@ CREATE TABLE DOMAIN (
 	endAA int NOT NULL,
 	score int,
 	evalueInd float,
-	FOREIGN KEY (ID) REFERENCES DOMAINS(domain)
 );

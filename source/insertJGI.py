@@ -106,7 +106,7 @@ def main(infile):
 		print("\nDone!\n")
 
 if __name__ == "__main__":
-	if len(sys.argv)==1 :
+	if len(sys.argv)==2 :
 		sys.exit(main(sys.argv[1]))
 	else :
 		print("Error en el número de parámetros (solo 1).")
