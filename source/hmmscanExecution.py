@@ -3,7 +3,7 @@
 
 #Authors: Pablo Vicente Munuera and David Gómez Sánchez
 
-#Execution: python3 hmmscanExecution.py
+#Execution: python3 hmmscanExecution.py Datasets/Pfam-A.hmm Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta
 
 '''
 Explanation: Programa que ejecute hmmscan sobre Pfam y las proteínas del organismo
@@ -67,7 +67,9 @@ def main(hmmFile, fastaFile):
 		raise
 
 	with conn:
-		print(call(["hmmscan", hmmFile, fastaFile])) #test with --domtblout
+		print("Procesando...")
+		#call(["hmmpress", hmmFile])
+		print(call(["hmmscan", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
 		print("\nDone!\n")
 
 if __name__ == "__main__":
