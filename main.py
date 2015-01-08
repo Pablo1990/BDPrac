@@ -5,7 +5,7 @@
 
 #Execution: main.py
 
-from source import insertJGI
+from source import insertJGI, insertPFAM, hmmscanExecution
 
 print("Bienvenido/s a la práctica de BD\n")
 print("Authors: David Gómez Sánchez and Pablo Vicente Munuera\n")
@@ -28,9 +28,18 @@ while(option!='0') :
 			infile = 'Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta'
 		insertJGI.main(infile)
 	elif(option == '2') :
-		print("opcion2")
+		infile = input("Inserte fichero PFAM: ")
+		if(infile=='') :
+			infile = 'Datasets/Pfam-A.seed'
+		insertPFAM.main(infile)
 	elif(option == '3') :
-		print("opcion3")
+		hmmFile = input("Inserte fichero hmmm:")
+		fastaFile = input("Inserte fichero fasta:")
+		if(hmmFile == ''):
+			hmmFile = 'Datasets/Pfam-A.hmm'
+		if(fastaFile == ''):
+			fastaFile = 'Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta'
+		hmmscanExecution.main(hmmFile, fastaFile)
 	elif(option == '0') :
 		print("Saliendo...")
 	else :
