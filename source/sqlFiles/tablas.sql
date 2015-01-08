@@ -42,6 +42,14 @@ CREATE TABLE HMMER (
 	PRIMARY KEY (ID, organism)
 );
 
+CREATE TABLE DOMAIN (
+	ID serial PRIMARY KEY,
+	startAA int NOT NULL,
+	endAA int NOT NULL,
+	score int,
+	evalueInd float
+);
+
 CREATE TABLE DOMAINS (
 	IDTarget INT, --Esto esta bien?
 	IDQuery INT,
@@ -54,10 +62,4 @@ CREATE TABLE DOMAINS (
 	FOREIGN KEY (domain) REFERENCES DOMAIN(ID)
 );
 
-CREATE TABLE DOMAIN (
-	ID serial PRIMARY KEY,
-	startAA int NOT NULL,
-	endAA int NOT NULL,
-	score int,
-	evalueInd float
-);
+
