@@ -69,7 +69,7 @@ def main(hmmFile, fastaFile):
 	with conn:
 		print("Procesando...")
 		#call(["hmmpress", hmmFile])
-		print(call(["hmmscan", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
+		print(call(["hmmscan","-o", "hmmscan.out", "--tblout", "tableHitsSequence.out", "--domtblout", "tableHitsDomain.out", "--pfamtblout", "tableHitsPfam.out", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
 		print("\nDone!\n")
 
 if __name__ == "__main__":
