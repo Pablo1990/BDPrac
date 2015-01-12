@@ -27,14 +27,14 @@ while(option!='0') :
 		infile = input("Inserte fichero fasta: ")
 		if(os.path.exists(infile)==False and infile != ''):
 			print("Error: el fichero no existe", infile)
-		else if(infile=='') :
+		elif(infile=='') :
 			infile = 'Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta'
 		insertJGI.main(infile)
 	elif(option == '2') :
 		infile = input("Inserte fichero PFAM: ")
 		if(os.path.exists(infile)==False and infile != ''):
 			print("Error: el fichero no existe", infile)
-		else if(infile=='') :
+		elif(infile=='') :
 			infile = 'Datasets/Pfam-A.seed'
 		insertPFAM.main(infile)
 	elif(option == '3') :
