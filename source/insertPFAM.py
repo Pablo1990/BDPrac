@@ -40,19 +40,19 @@ def main(infile):
 			for gfs in lineas:
 				if gfs.startswith('#=GF ID'):
 					ID = gfs.split('#=GF ID')
-					print(ID[1])
+			#		print(ID[1])
 				elif gfs.startswith('#=GF AC'):
 					AC = gfs.split('#=GF AC')
-					print(AC[1])
+			#		print(AC[1])
 				elif gfs.startswith('#=GF DE'):
 					DE = gfs.split('#=GF DE')	
-					print(DE[1])
-				elif gfs.startswith('#=GF DR\n'):
-					DR = gfs.split('#=GF DR\n')
-					#if DR[1].startswith('INTERPRO;'):
-					print (DR[1])
-						#DR1 = DR[1].split('INTERPRO;')
-						#print(DR1[0])
+			#		print(DE[1])
+				elif gfs.startswith('#=GF DR'):
+					DR = gfs.split('#=GF DR')
+					if DR[1].startswith('   INTERPRO; '):
+						DR1 = DR[1].split('   INTERPRO; ')
+			#			print (DR1[1])
+			#Los prints comentados son los elementos parseados.
 		print("\nDone!\n")
 
 if __name__ == "__main__":
