@@ -85,7 +85,8 @@ def createFasta(data):
 	fi.close()
 
 
-def main(hmmFile, fastaFile):
+def main(hmmFile):
+	fastaFile = 'temp/fastaHmmer.fasta'
 	print("\nEjecutando hmmscan con", hmmFile, fastaFile)
 	try:
 		conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
@@ -100,13 +101,13 @@ def main(hmmFile, fastaFile):
 		print("Procesando...")
 		extractSelected(conn)
 		#call(["hmmpress", hmmFile])
-		#print(call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
+		print(call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
 		print("\nDone!\n")
 
 if __name__ == "__main__":
-	if len(sys.argv)==3 :
-		sys.exit(main(sys.argv[1], sys.argv[2]))
+	if len(sys.argv)==2 :
+		sys.exit(main(sys.argv[1]))
 	else :
-		print("Error en el número de parámetros (solo 2).")
+		print("Error en el número de parámetros (solo 1).")
 
 

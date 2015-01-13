@@ -43,15 +43,9 @@ while(option!='0') :
 		if(os.path.exists(hmmFile)==False and hmmFile != ''):
 			print("Error: el fichero no existe", hmmFile)
 		else :
-			fastaFile = input("Inserte fichero fasta:")
-			if(os.path.exists(fastaFile)==False and fastaFile != ''):
-				print("Error: el fichero no existe", fastaFile)
-			else:
-				if(hmmFile == ''):
-					hmmFile = 'Datasets/Pfam-A.hmm'
-				if(fastaFile == ''):
-					fastaFile = 'Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta'
-				hmmscanExecution.main(hmmFile, fastaFile)
+			if(hmmFile == ''):
+				hmmFile = 'Datasets/Pfam-A.hmm'
+			hmmscanExecution.main(hmmFile)
 	elif(option == '0') :
 		print("Saliendo...")
 	else :
