@@ -53,6 +53,22 @@ dbname='masterdb'	# El nombre de la base de datos, que tendreis que cambiarlo
 dbuser='masteruser'	# Vuestro nombre de usuario
 dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERIAMOS PONER UNA CONTRASEÑA EN EL PROGRAMA
 
+def extractSelected(conn):
+	try:
+		with conn.cursor() as cur:
+			salida = cur.execute('select * from JGI where length(secuencia)>=(select avg(length(secuencia)) from jgi);')
+			print (salida)
+			#print ("All correct")
+	except dbi.Error as e:
+		print("FastaEntry ", str(cont))
+		print("Error al insertar en la base de datos: ",e.diag.message_primary,file=sys.stderr)
+		raise
+	except:
+		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
+		raise
+
+def createFasta(datos):
+	print("hola!")
 
 
 def main(hmmFile, fastaFile):
@@ -68,8 +84,9 @@ def main(hmmFile, fastaFile):
 
 	with conn:
 		print("Procesando...")
+		extractSelected(conn)
 		#call(["hmmpress", hmmFile])
-		print(call(["hmmscan","-o", "hmmscan.out", "--tblout", "tableHitsSequence.out", "--domtblout", "tableHitsDomain.out", "--pfamtblout", "tableHitsPfam.out", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
+		#print(call(["hmmscan","-o", "hmmscan.out", "--tblout", "tableHitsSequence.out", "--domtblout", "tableHitsDomain.out", "--pfamtblout", "tableHitsPfam.out", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
 		print("\nDone!\n")
 
 if __name__ == "__main__":
