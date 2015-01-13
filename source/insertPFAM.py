@@ -31,11 +31,11 @@ def insertIntoDB(attributes, conn, cont):
 				(attributes[0],attributes[1], attributes[2], attributes[3]))
 			#print ("All correct")
 	except dbi.Error as e:
-		print("FastaEntry ", str(cont))
+		print("PfamEntry ", str(cont))
 		print("Error al insertar en la base de datos: ",e.diag.message_primary,file=sys.stderr)
 		raise
 	except:
-		print("FastaEntry ", str(cont))
+		print("PfamEntry ", str(cont))
 		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
 		raise
 
