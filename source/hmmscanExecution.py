@@ -3,7 +3,7 @@
 
 #Authors: Pablo Vicente Munuera and David Gómez Sánchez
 
-#Execution: python3 hmmscanExecution.py Datasets/Pfam-A.hmm Datasets/Psehy1_GeneCatalog_proteins_20140829.aa.fasta
+#Execution: python3 hmmscanExecution.py Datasets/Pfam-A.hmm
 
 '''
 Explanation: Programa que ejecute hmmscan sobre Pfam y las proteínas del organismo
@@ -62,8 +62,7 @@ def extractSelected(conn):
 			#print (data)
 			#print ("All correct")
 	except dbi.Error as e:
-		print("FastaEntry ", str(cont))
-		print("Error al insertar en la base de datos: ",e.diag.message_primary,file=sys.stderr)
+		print("Error al ejecutar la select en la base de datos: ",e.diag.message_primary,file=sys.stderr)
 		raise
 	except:
 		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
@@ -98,11 +97,13 @@ def main(hmmFile):
 		raise
 
 	with conn:
-		print("Procesando...")
+		print("Creando fasta file...")
 		extractSelected(conn)
+		print("Done!")
 		#call(["hmmpress", hmmFile])
-		print(call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
-		print("\nDone!\n")
+		print("Procesando hmmscan")
+		call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])
+		print("Done!\n")
 
 if __name__ == "__main__":
 	if len(sys.argv)==2 :
