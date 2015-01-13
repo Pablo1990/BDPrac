@@ -56,8 +56,10 @@ dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERI
 def extractSelected(conn):
 	try:
 		with conn.cursor() as cur:
-			salida = cur.execute('select * from JGI where length(secuencia)>=(select avg(length(secuencia)) from jgi);')
-			print (salida)
+			cur.execute('select * from JGI where length(secuencia)>(select avg(length(secuencia)) from jgi);')
+			data = cur.fetchall();
+			createFasta(data)
+			#print (data)
 			#print ("All correct")
 	except dbi.Error as e:
 		print("FastaEntry ", str(cont))
@@ -67,8 +69,20 @@ def extractSelected(conn):
 		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
 		raise
 
-def createFasta(datos):
-	print("hola!")
+def createFasta(data):
+	'''
+	Structure:
+	>jgi|Psehy1|[Pseudovirgaria hyperparasitica]|529894|estExt_fgenesh1_pm.C_10025
+	MKPREIPQGVTELENQTNKIATKHGRTTQTQKPFNTLSAIGIGYGVTNTAVGIPLVIATTIPLGGSPQVF*
+	'''
+	fi = open('temp/fastaHmmer.fasta', 'w')
+	for row in data:
+		text = '>jgi|'+row[4]+'|['+row[1]+']|'+str(row[0])+'|'+row[3]+'\n'+row[2]+'\n'
+		fi.write(text)
+		#print(row)
+		#break
+
+	fi.close()
 
 
 def main(hmmFile, fastaFile):
@@ -86,7 +100,7 @@ def main(hmmFile, fastaFile):
 		print("Procesando...")
 		extractSelected(conn)
 		#call(["hmmpress", hmmFile])
-		#print(call(["hmmscan","-o", "hmmscan.out", "--tblout", "tableHitsSequence.out", "--domtblout", "tableHitsDomain.out", "--pfamtblout", "tableHitsPfam.out", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
+		#print(call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])) #test with --domtblout --pfamwhatever and others
 		print("\nDone!\n")
 
 if __name__ == "__main__":
