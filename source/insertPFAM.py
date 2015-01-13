@@ -34,10 +34,6 @@ def insertIntoDB(attributes, conn, cont):
 		print("FastaEntry ", str(cont))
 		print("Error al insertar en la base de datos: ",e.diag.message_primary,file=sys.stderr)
 		raise
-	except IOError as e:
-		print("FastaEntry ", str(cont))
-		print("Error de lectura de fichero {0}: {1}".format(e.errno, e.strerror),file=sys.stderr)
-		#raise
 	except:
 		print("FastaEntry ", str(cont))
 		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
