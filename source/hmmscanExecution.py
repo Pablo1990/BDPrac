@@ -83,6 +83,9 @@ def createFasta(data):
 
 	fi.close()
 
+def parseHmmerFile():
+	print("parseando......... ñañañññañañañañaññañañ")
+
 
 def main(hmmFile):
 	fastaFile = 'temp/fastaHmmer.fasta'
@@ -101,8 +104,10 @@ def main(hmmFile):
 		extractSelected(conn)
 		print("Done!")
 		#call(["hmmpress", hmmFile])
-		print("Procesando hmmscan")
+		print("Ejecutando hmmscan... puede tardar (de hecho va a tardar)")
 		call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])
+		print("Procesando fichero hmmscan...")
+		parseHmmerFile()
 		print("Done!\n")
 
 if __name__ == "__main__":
