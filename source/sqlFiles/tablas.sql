@@ -17,7 +17,7 @@ PRIMARY KEY (ID, organism)
 
 CREATE TABLE PFAM (
 ID VARCHAR(15),
-accnumber VARCHAR(8) NOT NULL,
+accnumber VARCHAR(12) NOT NULL,
 description VARCHAR(80),
 interpro VARCHAR (10),
 PRIMARY KEY (ID),
@@ -25,8 +25,8 @@ UNIQUE (accnumber)
 );
 
 CREATE TABLE ACCNUMBERS (
-main_accnumber VARCHAR(10) PRIMARY KEY,
-accnumber VARCHAR(10) NOT NULL,
+main_accnumber VARCHAR(12) PRIMARY KEY,
+accnumber VARCHAR(12) NOT NULL,
 FOREIGN KEY (main_accnumber)
 REFERENCES PFAM(accnumber)
 );

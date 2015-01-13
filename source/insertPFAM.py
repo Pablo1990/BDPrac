@@ -44,7 +44,7 @@ def main(infile):
 	try:
 		conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
 		# Esto sirve para que cada sentencia se ejecute inmediatamente
-		#conn.autocommit = True
+		conn.autocommit = True
 		#print("Conexion a BD: correcta")
 	except dbi.Error as e:
 		print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
@@ -55,29 +55,32 @@ def main(infile):
 		string = fichero.read()
 		entradas = string.split('# STOCKHOLM 1.0')
 		del entradas[0]
-		attributes=[]
+		cont = 0
 		for entrada in entradas:
+			attributes=[]
 			lineas = entrada.split('\n')
 			for gfs in lineas:
 				if gfs.startswith('#=GF ID   '):
 					ID = gfs.split('#=GF ID   ')
-			#		print(ID[1])
-					attributes += ID[1]
+				#	print(ID[1])
+					attributes.append(ID[1])
 				elif gfs.startswith('#=GF AC   '):
 					AC = gfs.split('#=GF AC   ')
-			#		print(AC[1])
-					attributes += AC[1]
+				#	print(AC[1])
+					attributes.append(AC[1])
 				elif gfs.startswith('#=GF DE   '):
 					DE = gfs.split('#=GF DE   ')	
-			#		print(DE[1])
-					attributes += DE[1]
+				#	print(DE[1])
+					attributes.append(DE[1])
 				elif gfs.startswith('#=GF DR'):
 					DR = gfs.split('#=GF DR')
 					if DR[1].startswith('   INTERPRO; '):
 						DR1 = DR[1].split('   INTERPRO; ')
 						DR2 = DR1[1].split(';')
-			#			print (DR2[0])
-						attributes += DR2[0]
+				#		print (DR2[0])
+						attributes.append(DR2[0])
+						cont += 1
+						insertIntoDB(attributes, conn, cont)
 			#Los prints comentados son los elementos parseados.
 		print("\nDone!\n")
 
@@ -86,3 +89,5 @@ if __name__ == "__main__":
 		sys.exit(main(sys.argv[1]))
 	else :
 		print("Error en el número de parámetros (solo 1).")
+		
+		
