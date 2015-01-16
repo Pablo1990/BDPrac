@@ -90,6 +90,14 @@ def parseHmmerFile():
 	fi.readline()
 	for line in fi:
 		fields = line.split()
+		'''
+		target_name, accession, tlen, query_name, accession, qlen, E-value, score,
+		 bias, #, of, c-Evalue, i-Evalue, score, bias, from, to, from, to, from, to,
+		 cc, description_of_target
+		['AA_permease_2', 'PF13520.1', '426', '529894', '-', '497', '2.3e-33',
+		'115.3', '49.2', '1', '1', '5.8e-37', '2.9e-33', '115.0', '49.2', '1',
+		'425', '34', '471', '34', '476', '0.83', 'Amino', 'acid', 'permease']
+		'''
 		print(fields)
 		break
 	fi.close()
