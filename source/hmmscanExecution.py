@@ -83,7 +83,13 @@ def createFasta(data):
 
 	fi.close()
 
-def parseHmmerFile():
+def insertDomain():
+	print ("parseado")
+
+def insertQuery(id, accession, description, evalue, conn):
+	print("pareado")
+
+def parseHmmerFile(conn):
 	fi = open('temp/tableHitsDomain.out')
 	fi.readline()
 	fi.readline()
@@ -98,7 +104,14 @@ def parseHmmerFile():
 		'115.3', '49.2', '1', '1', '5.8e-37', '2.9e-33', '115.0', '49.2', '1',
 		'425', '34', '471', '34', '476', '0.83', 'Amino', 'acid', 'permease']
 		'''
-		print(fields)
+		#print(fields)
+		description = ""
+		for i in range(21,len(fields)):
+			description+=fields[i]
+
+		insertQuery(fields[0], fields[1], description, fields[6], conn)
+		insertDomain(attributesQuery, conn)
+		insertDomains(attributesDomains, conn)
 		break
 	fi.close()
 
@@ -123,7 +136,7 @@ def main(hmmFile):
 		print("Ejecutando hmmscan... puede tardar (de hecho va a tardar)")
 		#call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])
 		print("Procesando fichero hmmscan...")
-		parseHmmerFile()
+		parseHmmerFile(conn)
 		print("Done!\n")
 
 if __name__ == "__main__":

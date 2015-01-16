@@ -16,7 +16,7 @@ PRIMARY KEY (ID, organism)
 ----------- PFAM DB 1.b -----------
 
 CREATE TABLE PFAM (
-ID VARCHAR(15),
+ID VARCHAR(200),
 accnumber VARCHAR(12) NOT NULL,
 description VARCHAR(80),
 interpro VARCHAR (10),
@@ -24,12 +24,12 @@ PRIMARY KEY (ID),
 UNIQUE (accnumber)
 );
 
-CREATE TABLE ACCNUMBERS (
+/*CREATE TABLE ACCNUMBERS (
 main_accnumber VARCHAR(12) PRIMARY KEY,
 accnumber VARCHAR(12) NOT NULL,
 FOREIGN KEY (main_accnumber)
 REFERENCES PFAM(accnumber)
-);
+);*/
 
 
 ----------- HMMER DB 1.c ----------- 
@@ -39,7 +39,8 @@ CREATE TABLE HMMER (
 	organism VARCHAR(200),
 	description text,
 	evalue float,
-	PRIMARY KEY (ID, organism)
+	PRIMARY KEY (ID, organism),
+	FOREIGN Key (ID, organism) REFERENCES JGI(ID, organism)
 );
 
 CREATE TABLE DOMAIN (
@@ -51,14 +52,15 @@ CREATE TABLE DOMAIN (
 );
 
 CREATE TABLE DOMAINS (
-	IDTarget INT, --Esto esta bien?
+	AccTarget VARCHAR(15),
 	IDQuery INT,
 	OrganismQuery VARCHAR(200),
 	OrganismTarget VARCHAR(200),
 	domain serial,
-	PRIMARY KEY(IDQuery, OrganismQuery, IDTarget, OrganismTarget),
-	FOREIGN KEY (IDQuery, OrganismQuery) REFERENCES JGI(ID, organism),
-	FOREIGN KEY (IDTarget, OrganismTarget) REFERENCES HMMER(ID, organism),
+	PRIMARY KEY(IDQuery, OrganismQuery, AccTarget, OrganismTarget),
+	FOREIGN KEY (IDQuery, OrganismQuery) REFERENCES HMMER(ID, organism),
+	FOREIGN KEY (AccTarget) REFERENCES PFAM(accnumber),
+	FOREIGN KEY (OrganismTarget) REFERENCES PFAM(ID),
 	FOREIGN KEY (domain) REFERENCES DOMAIN(ID)
 );
 
