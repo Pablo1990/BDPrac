@@ -3,7 +3,7 @@
 
 #Authors: Pablo Vicente Munuera and David Gómez Sánchez
 
-#Execution: python3.4 listaDomains.py
+#Execution: python3.4 listaDomains.py "inputString"
 
 def executeSelect(conn, inputString):
 	try:
