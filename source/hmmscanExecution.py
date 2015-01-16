@@ -71,12 +71,12 @@ def extractSelected(conn):
 def createFasta(data):
 	'''
 	Structure:
-	>jgi|Psehy1|[Pseudovirgaria hyperparasitica]|529894|estExt_fgenesh1_pm.C_10025
+	>ID
 	MKPREIPQGVTELENQTNKIATKHGRTTQTQKPFNTLSAIGIGYGVTNTAVGIPLVIATTIPLGGSPQVF*
 	'''
 	fi = open('temp/fastaHmmer.fasta', 'w')
 	for row in data:
-		text = '>jgi|'+row[4]+'|['+row[1]+']|'+str(row[0])+'|'+row[3]+'\n'+row[2]+'\n'
+		text = '>'+str(row[0])+'\n'+row[2]+'\n'
 		fi.write(text)
 		#print(row)
 		#break
@@ -84,7 +84,15 @@ def createFasta(data):
 	fi.close()
 
 def parseHmmerFile():
-	print("parseando......... ñañañññañañañañaññañañ")
+	fi = open('temp/tableHitsDomain.out')
+	fi.readline()
+	fi.readline()
+	fi.readline()
+	for line in fi:
+		fields = line.split()
+		print(fields)
+		break
+	fi.close()
 
 
 def main(hmmFile):
@@ -105,7 +113,7 @@ def main(hmmFile):
 		print("Done!")
 		#call(["hmmpress", hmmFile])
 		print("Ejecutando hmmscan... puede tardar (de hecho va a tardar)")
-		call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])
+		#call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])
 		print("Procesando fichero hmmscan...")
 		parseHmmerFile()
 		print("Done!\n")
