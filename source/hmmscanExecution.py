@@ -84,11 +84,11 @@ def createFasta(data):
 	fi.close()
 
 def insertDomain(ali_from, ali_to, domain_score, ivalue, conn, entry):
-	#print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
+	print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
 	try:
 		with conn.cursor() as cur:
-			cur.execute('INSERT INTO domain VALUES (%s,%s,%s,%s)',
-				(ali_from, ali_to, domain_score, ivalue))
+			cur.execute('INSERT INTO domain VALUES (%s,%s,%s,%s,%s)',
+				(entry+1, int(ali_from), int(ali_to), float(domain_score), float(ivalue)))
 			#print (data)
 			#print ("All correct")
 	except dbi.Error as e:
@@ -97,15 +97,15 @@ def insertDomain(ali_from, ali_to, domain_score, ivalue, conn, entry):
 		raise
 	except:
 		print("Entry: ", str(entry))
-		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
+		print("Error inesperado en la base de datos domain: ", sys.exc_info()[0],file=sys.stderr)
 		raise
 
-def insertQuery(id, accession, description, evalue, conn, entry):
+def insertQuery(id, description, evalue, conn, entry):
 	#print(id +" | " + accession +" | " + description +" | " + evalue)
 	try:
 		with conn.cursor() as cur:
-			cur.execute('INSERT INTO hmmer VALUES (%s,%s,%s,%s)',
-				(id, accession, description, evalue))
+			cur.execute('INSERT INTO hmmer VALUES (%s,%s,%s)',
+				(int(id), description, float(evalue)))
 			#print (data)
 			#print ("All correct")
 	except dbi.Error as e:
@@ -114,7 +114,7 @@ def insertQuery(id, accession, description, evalue, conn, entry):
 		raise
 	except:
 		print("Entry: ", str(entry))
-		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
+		print("Error inesperado en la base de datos hmmer: ", sys.exc_info()[0],file=sys.stderr)
 		raise
 
 def parseHmmerFile(conn):
@@ -133,14 +133,14 @@ def parseHmmerFile(conn):
 		'115.3', '49.2', '1', '1', '5.8e-37', '2.9e-33', '115.0', '49.2', '1',
 		'425', '34', '471', '34', '476', '0.83', 'Amino', 'acid', 'permease']
 		'''
-		print(fields)
+		#print(fields)
 		description = ""
 		for i in range(22,len(fields)):
 			description+=fields[i] + " "
 
-		insertQuery(fields[3], description.rstrip(' '), fields[6], conn)
+		insertQuery(fields[3], description.rstrip(' '), fields[6], conn, cont)
 		#ali_from, ali_to, domain_score, i-value
-		insertDomain(fields[17], fields[18], fields[12], fields[13], conn)
+		insertDomain(fields[17], fields[18], fields[13], fields[12], conn, cont)
 		#insertDomains(attributesDomains, conn)
 		cont+=1
 		break
@@ -165,7 +165,7 @@ def main(hmmFile):
 		print("Done!")
 		#call(["hmmpress", hmmFile])
 		print("Ejecutando hmmscan... puede tardar (de hecho va a tardar)")
-		call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])
+		#call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])
 		print("Procesando fichero hmmscan...")
 		parseHmmerFile(conn)
 		print("Done!\n")
