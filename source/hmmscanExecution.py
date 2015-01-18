@@ -83,12 +83,12 @@ def createFasta(data):
 
 	fi.close()
 
-def insertDomain(ali_from, ali_to, domain_score, ivalue, conn, entry):
+def insertDomain(ali_from, ali_to, domain_score, ivalue, target_accesion, query_name, target_name, conn, entry):
 	#print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
 	try:
 		with conn.cursor() as cur:
-			cur.execute('INSERT INTO domain VALUES (%s,%s,%s,%s,%s)',
-				(entry+1, int(ali_from), int(ali_to), float(domain_score), float(ivalue)))
+			cur.execute('INSERT INTO domain VALUES (%s,%s,%s,%s,%s,)',
+				(entry+1, int(ali_from), int(ali_to), float(domain_score), float(ivalue), target_accesion, int(query_name), target_name))
 			#print ("All correct")
 	except dbi.Error as e:
 		print("Entry: ", str(entry))
@@ -115,27 +115,13 @@ def insertQuery(id, description, evalue, conn, entry):
 		print("Error inesperado en la base de datos hmmer: ", sys.exc_info()[0],file=sys.stderr)
 		raise
 
-def insertDomains(target_accesion, query_name, target_name, entry, conn) :
-	try:
-		with conn.cursor() as cur:
-			cur.execute('INSERT INTO domains VALUES (%s,%s,%s,%s)',
-				(target_accesion, int(query_name), target_name, int(entry+1)))
-			#print ("All correct")
-	except dbi.Error as e:
-		print("Entry: ", str(entry))
-		print("Error al insertar en la base de datos domains: ",e.diag.message_primary,file=sys.stderr)
-		raise
-	except:
-		print("Entry: ", str(entry))
-		print("Error inesperado en la base de datos domains: ", sys.exc_info()[0],file=sys.stderr)
-		raise
-
 def parseHmmerFile(conn):
 	fi = open('temp/tableHitsDomain.out')
 	fi.readline()
 	fi.readline()
 	fi.readline()
-	cont = 0
+	cont = 0 #habria que hacer una select para que empezara por donde se quedo en el hmmer
+			#la query seria: select count(*) from domain;
 	query_nameAnt = ''
 	for line in fi:
 		fields = line.split()
@@ -156,10 +142,9 @@ def parseHmmerFile(conn):
 			insertQuery(fields[3], description.rstrip(' '), fields[6], conn, cont)
 			query_nameAnt = fields[3]
 
-		#ali_from, ali_to, domain_score, i-value
-		insertDomain(fields[17], fields[18], fields[13], fields[12], conn, cont)
-		#target_accesion, query_name, target_name, id_domain
-		insertDomains(fields[1], fields[3], fields[0], cont, conn)
+		#ali_from, ali_to, domain_score, i-value, target_accesion, query_name, target_name, id_domain
+		insertDomain(fields[17], fields[18], fields[13], fields[12],fields[1], fields[3], fields[0], conn, cont)
+		
 		cont+=1
 
 	fi.close()
