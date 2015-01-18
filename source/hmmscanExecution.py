@@ -71,12 +71,12 @@ def extractSelected(conn):
 def createFasta(data):
 	'''
 	Structure:
-	>ID|organismo
+	>ID
 	MKPREIPQGVTELENQTNKIATKHGRTTQTQKPFNTLSAIGIGYGVTNTAVGIPLVIATTIPLGGSPQVF*
 	'''
 	fi = open('temp/fastaHmmer.fasta', 'w')
 	for row in data:
-		text = '>'+str(row[0])+ "|" + str(row[1]) + '\n'+row[2]+'\n'
+		text = '>'+str(row[0]) + '\n'+row[2]+'\n'
 		fi.write(text)
 		#print(row)
 		#break
@@ -138,8 +138,7 @@ def parseHmmerFile(conn):
 		for i in range(22,len(fields)):
 			description+=fields[i] + " "
 
-		query = fields[3].split("|")
-		insertQuery(query[0], query[1], description.rstrip(' '), fields[6], conn)
+		insertQuery(fields[3], description.rstrip(' '), fields[6], conn)
 		#ali_from, ali_to, domain_score, i-value
 		insertDomain(fields[17], fields[18], fields[12], fields[13], conn)
 		#insertDomains(attributesDomains, conn)
