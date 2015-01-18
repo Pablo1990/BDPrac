@@ -6,11 +6,11 @@
 
 CREATE TABLE JGI 
 (ID int,
-organism varchar (200),
+organism varchar (200) NOT NULL,
 secuencia Text NOT NULL,
 descripcion Text,
 sinonimo varchar(200) NOT NULL,
-PRIMARY KEY (ID, organism)
+PRIMARY KEY (ID)
 );
 
 ----------- PFAM DB 1.b -----------
@@ -36,11 +36,10 @@ REFERENCES PFAM(accnumber)
 
 CREATE TABLE HMMER (
 	ID INT,
-	organism VARCHAR(200),
 	description text,
 	evalue float,
-	PRIMARY KEY (ID, organism),
-	FOREIGN Key (ID, organism) REFERENCES JGI(ID, organism)
+	PRIMARY KEY (ID),
+	FOREIGN Key (ID) REFERENCES JGI(ID)
 );
 
 CREATE TABLE DOMAIN (
@@ -54,11 +53,10 @@ CREATE TABLE DOMAIN (
 CREATE TABLE DOMAINS (
 	AccTarget VARCHAR(15),
 	IDQuery INT,
-	OrganismQuery VARCHAR(200),
 	OrganismTarget VARCHAR(200),
 	domain serial,
-	PRIMARY KEY(IDQuery, OrganismQuery, AccTarget, OrganismTarget),
-	FOREIGN KEY (IDQuery, OrganismQuery) REFERENCES HMMER(ID, organism),
+	PRIMARY KEY(IDQuery, AccTarget, OrganismTarget),
+	FOREIGN KEY (IDQuery) REFERENCES HMMER(ID),
 	FOREIGN KEY (AccTarget) REFERENCES PFAM(accnumber),
 	FOREIGN KEY (OrganismTarget) REFERENCES PFAM(ID),
 	FOREIGN KEY (domain) REFERENCES DOMAIN(ID)
