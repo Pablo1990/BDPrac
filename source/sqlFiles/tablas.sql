@@ -42,24 +42,17 @@ CREATE TABLE HMMER (
 	FOREIGN Key (ID) REFERENCES JGI(ID)
 );
 
-CREATE TABLE DOMAIN (
+CREATE TABLE DOMAINS (
 	ID serial PRIMARY KEY,
 	startAA int NOT NULL,
 	endAA int NOT NULL,
 	score int,
-	evalueInd float
-);
-
-CREATE TABLE DOMAINS (
-	AccTarget VARCHAR(15),
-	IDQuery INT,
-	NameTarget VARCHAR(200),
-	domain serial,
-	PRIMARY KEY(IDQuery, AccTarget, NameTarget),
+	evalueInd float,
+	AccTarget VARCHAR(15) NOT NULL,
+	IDQuery INT NOT NULL,
+	NameTarget VARCHAR(200) NOT NULL,
 	FOREIGN KEY (IDQuery) REFERENCES HMMER(ID),
 	FOREIGN KEY (AccTarget) REFERENCES PFAM(accnumber),
-	FOREIGN KEY (NameTarget) REFERENCES PFAM(ID),
-	FOREIGN KEY (domain) REFERENCES DOMAIN(ID)
+	FOREIGN KEY (NameTarget) REFERENCES PFAM(ID)
 );
-
 
