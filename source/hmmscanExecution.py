@@ -71,23 +71,23 @@ def extractSelected(conn):
 def createFasta(data):
 	'''
 	Structure:
-	>ID
+	>ID|organismo
 	MKPREIPQGVTELENQTNKIATKHGRTTQTQKPFNTLSAIGIGYGVTNTAVGIPLVIATTIPLGGSPQVF*
 	'''
 	fi = open('temp/fastaHmmer.fasta', 'w')
 	for row in data:
-		text = '>'+str(row[0])+'\n'+row[2]+'\n'
+		text = '>'+str(row[0])+ "|" + str(row[1]) + '\n'+row[2]+'\n'
 		fi.write(text)
 		#print(row)
 		#break
 
 	fi.close()
 
-def insertDomain():
-	print ("parseado")
+def insertDomain(ali_from, ali_to, domain_score, ivalue, conn):
+	print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
 
 def insertQuery(id, accession, description, evalue, conn):
-	print("pareado")
+	print(id +" | " + accession +" | " + description +" | " + evalue)
 
 def parseHmmerFile(conn):
 	fi = open('temp/tableHitsDomain.out')
@@ -98,20 +98,22 @@ def parseHmmerFile(conn):
 		fields = line.split()
 		'''
 		target_name, accession, tlen, query_name, accession, qlen, E-value, score,
-		 bias, #, of, c-Evalue, i-Evalue, score, bias, from, to, from, to, from, to,
+		 bias, #, of, c-Evalue, i-Evalue, domain_score, bias, from, to, ali_from, ali_to, from, to,
 		 cc, description_of_target
 		['AA_permease_2', 'PF13520.1', '426', '529894', '-', '497', '2.3e-33',
 		'115.3', '49.2', '1', '1', '5.8e-37', '2.9e-33', '115.0', '49.2', '1',
 		'425', '34', '471', '34', '476', '0.83', 'Amino', 'acid', 'permease']
 		'''
-		#print(fields)
+		print(fields)
 		description = ""
-		for i in range(21,len(fields)):
-			description+=fields[i]
+		for i in range(22,len(fields)):
+			description+=fields[i] + " "
 
-		insertQuery(fields[0], fields[1], description, fields[6], conn)
-		insertDomain(attributesQuery, conn)
-		insertDomains(attributesDomains, conn)
+		query = fields[3].split("|")
+		insertQuery(query[0], query[1], description.rstrip(' '), fields[6], conn)
+		#ali_from, ali_to, domain_score, i-value
+		insertDomain(fields[17], fields[18], fields[12], fields[13], conn)
+		#insertDomains(attributesDomains, conn)
 		break
 	fi.close()
 
