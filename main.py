@@ -5,7 +5,7 @@
 
 #Execution: main.py
 
-from source import insertJGI, insertPFAM, hmmscanExecution
+from source import insertJGI, insertPFAM, hmmscanExecution, listaDomains
 import os.path
 
 print("Bienvenido/s a la práctica de BD\n")
@@ -17,6 +17,7 @@ while(option!='0') :
 	print("1 - Insertar datos desde JGI.")
 	print("2 - Insertar datos procedente PFAM.")
 	print("3 - Insertar datos desde HMMER3.")
+	print("4 - Lista info en función de un ")
 	print("0 - Salir.")
 
 	option = input("Escoja una opción: ")
@@ -46,6 +47,12 @@ while(option!='0') :
 			if(hmmFile == ''):
 				hmmFile = 'Datasets/Pfam-A.hmm'
 			hmmscanExecution.main(hmmFile)
+	elif(option == '4'):
+		inputString = input("Inserte input a buscar: ")
+		if(inputString == '') :
+			print("Error: debe introducir algo.")
+		else :
+			listaDomains.main(inputString)
 	elif(option == '0') :
 		print("Saliendo...")
 	else :

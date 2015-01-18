@@ -5,7 +5,6 @@
 
 #Execution: python3.4 listaDomains.py "inputString"
 
-
 import sys
 import re
 import psycopg2 as dbi #importo un modulo y le doy un alias, importante para migrar codigo entre gestores de bases de datos
