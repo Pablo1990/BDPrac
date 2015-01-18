@@ -87,7 +87,7 @@ def insertDomain(ali_from, ali_to, domain_score, ivalue, target_accesion, query_
 	#print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
 	try:
 		with conn.cursor() as cur:
-			cur.execute('INSERT INTO domain VALUES (%s,%s,%s,%s,%s,)',
+			cur.execute('INSERT INTO domains VALUES (%s,%s,%s,%s,%s,%s,%s,%s)',
 				(entry+1, int(ali_from), int(ali_to), float(domain_score), float(ivalue), target_accesion, int(query_name), target_name))
 			#print ("All correct")
 	except dbi.Error as e:
@@ -124,6 +124,9 @@ def parseHmmerFile(conn):
 			#la query seria: select count(*) from domain;
 	query_nameAnt = ''
 	for line in fi:
+		if (line[0]=='#') : #end of the file
+			break
+
 		fields = line.split()
 		'''
 		target_name, accession, tlen, query_name, accession, qlen, E-value, score,
