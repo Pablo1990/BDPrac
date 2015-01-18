@@ -84,7 +84,7 @@ def createFasta(data):
 	fi.close()
 
 def insertDomain(ali_from, ali_to, domain_score, ivalue, conn, entry):
-	print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
+	#print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
 	try:
 		with conn.cursor() as cur:
 			cur.execute('INSERT INTO domain VALUES (%s,%s,%s,%s,%s)',
@@ -119,7 +119,7 @@ def insertDomains(target_accesion, query_name, target_name, entry, conn) :
 	try:
 		with conn.cursor() as cur:
 			cur.execute('INSERT INTO domains VALUES (%s,%s,%s,%s)',
-				(target_accesion, int(query_name), target_name, int(entry)))
+				(target_accesion, int(query_name), target_name, int(entry+1)))
 			#print ("All correct")
 	except dbi.Error as e:
 		print("Entry: ", str(entry))
@@ -136,6 +136,7 @@ def parseHmmerFile(conn):
 	fi.readline()
 	fi.readline()
 	cont = 0
+	query_nameAnt = ''
 	for line in fi:
 		fields = line.split()
 		'''
@@ -151,13 +152,16 @@ def parseHmmerFile(conn):
 		for i in range(22,len(fields)):
 			description+=fields[i] + " "
 
-		insertQuery(fields[3], description.rstrip(' '), fields[6], conn, cont)
+		if(query_nameAnt!=fields[3]):
+			insertQuery(fields[3], description.rstrip(' '), fields[6], conn, cont)
+			query_nameAnt = fields[3]
+
 		#ali_from, ali_to, domain_score, i-value
 		insertDomain(fields[17], fields[18], fields[13], fields[12], conn, cont)
 		#target_accesion, query_name, target_name, id_domain
 		insertDomains(fields[1], fields[3], fields[0], cont, conn)
 		cont+=1
-		break
+
 	fi.close()
 
 
