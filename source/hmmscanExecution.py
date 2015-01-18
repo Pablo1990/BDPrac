@@ -89,7 +89,6 @@ def insertDomain(ali_from, ali_to, domain_score, ivalue, conn, entry):
 		with conn.cursor() as cur:
 			cur.execute('INSERT INTO domain VALUES (%s,%s,%s,%s,%s)',
 				(entry+1, int(ali_from), int(ali_to), float(domain_score), float(ivalue)))
-			#print (data)
 			#print ("All correct")
 	except dbi.Error as e:
 		print("Entry: ", str(entry))
@@ -106,7 +105,6 @@ def insertQuery(id, description, evalue, conn, entry):
 		with conn.cursor() as cur:
 			cur.execute('INSERT INTO hmmer VALUES (%s,%s,%s)',
 				(int(id), description, float(evalue)))
-			#print (data)
 			#print ("All correct")
 	except dbi.Error as e:
 		print("Entry: ", str(entry))
@@ -115,6 +113,21 @@ def insertQuery(id, description, evalue, conn, entry):
 	except:
 		print("Entry: ", str(entry))
 		print("Error inesperado en la base de datos hmmer: ", sys.exc_info()[0],file=sys.stderr)
+		raise
+
+def insertDomains(target_accesion, query_name, target_name, entry, conn) :
+	try:
+		with conn.cursor() as cur:
+			cur.execute('INSERT INTO domains VALUES (%s,%s,%s,%s)',
+				(target_accesion, int(query_name), target_name, int(entry)))
+			#print ("All correct")
+	except dbi.Error as e:
+		print("Entry: ", str(entry))
+		print("Error al insertar en la base de datos domains: ",e.diag.message_primary,file=sys.stderr)
+		raise
+	except:
+		print("Entry: ", str(entry))
+		print("Error inesperado en la base de datos domains: ", sys.exc_info()[0],file=sys.stderr)
 		raise
 
 def parseHmmerFile(conn):
@@ -141,7 +154,8 @@ def parseHmmerFile(conn):
 		insertQuery(fields[3], description.rstrip(' '), fields[6], conn, cont)
 		#ali_from, ali_to, domain_score, i-value
 		insertDomain(fields[17], fields[18], fields[13], fields[12], conn, cont)
-		#insertDomains(attributesDomains, conn)
+		#target_accesion, query_name, target_name, id_domain
+		insertDomains(fields[1], fields[3], fields[0], cont, conn)
 		cont+=1
 		break
 	fi.close()

@@ -53,12 +53,12 @@ CREATE TABLE DOMAIN (
 CREATE TABLE DOMAINS (
 	AccTarget VARCHAR(15),
 	IDQuery INT,
-	OrganismTarget VARCHAR(200),
+	NameTarget VARCHAR(200),
 	domain serial,
-	PRIMARY KEY(IDQuery, AccTarget, OrganismTarget),
+	PRIMARY KEY(IDQuery, AccTarget, NameTarget),
 	FOREIGN KEY (IDQuery) REFERENCES HMMER(ID),
 	FOREIGN KEY (AccTarget) REFERENCES PFAM(accnumber),
-	FOREIGN KEY (OrganismTarget) REFERENCES PFAM(ID),
+	FOREIGN KEY (NameTarget) REFERENCES PFAM(ID),
 	FOREIGN KEY (domain) REFERENCES DOMAIN(ID)
 );
 
