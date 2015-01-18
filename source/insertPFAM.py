@@ -44,7 +44,7 @@ def main(infile):
 	try:
 		conn = dbi.connect(host=dbhost,database=dbname,user=dbuser,password=dbpass) #los objetod de connexion estan en transaccion por defecto, para ejecutarlas es el with mas adelante
 		# Esto sirve para que cada sentencia se ejecute inmediatamente
-		conn.autocommit = True
+		#conn.autocommit = True
 		#print("Conexion a BD: correcta")
 	except dbi.Error as e:
 		print("Ha habido un problema al conectar a la base de datos: ",e.diag.message_primary,file=sys.stderr)
@@ -62,7 +62,7 @@ def main(infile):
 			for gfs in lineas:
 				if gfs.startswith('#=GF ID   '):
 					ID = gfs.split('#=GF ID   ')
-				#	print(ID[1])
+					#print(ID[1])
 					attributes.append(ID[1])
 				elif gfs.startswith('#=GF AC   '):
 					AC = gfs.split('#=GF AC   ')
@@ -79,8 +79,12 @@ def main(infile):
 						DR2 = DR1[1].split(';')
 				#		print (DR2[0])
 						attributes.append(DR2[0])
-						cont += 1
-						insertIntoDB(attributes, conn, cont)
+						
+
+			for i in range(len(attributes), 4):
+				attributes.append("")
+			insertIntoDB(attributes, conn, cont)
+			cont += 1
 			#Los prints comentados son los elementos parseados.
 		print("\nDone!\n")
 
