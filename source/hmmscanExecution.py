@@ -84,10 +84,34 @@ def createFasta(data):
 	fi.close()
 
 def insertDomain(ali_from, ali_to, domain_score, ivalue, conn):
-	print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
+	#print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
+	try:
+		with conn.cursor() as cur:
+			cur.execute('INSERT INTO domain VALUES (%s,%s,%s,%s)',
+				(ali_from, ali_to, domain_score, ivalue))
+			#print (data)
+			#print ("All correct")
+	except dbi.Error as e:
+		print("Error al ejecutar la select en la base de datos: ",e.diag.message_primary,file=sys.stderr)
+		raise
+	except:
+		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
+		raise
 
 def insertQuery(id, accession, description, evalue, conn):
-	print(id +" | " + accession +" | " + description +" | " + evalue)
+	#print(id +" | " + accession +" | " + description +" | " + evalue)
+	try:
+		with conn.cursor() as cur:
+			cur.execute('INSERT INTO hmmer VALUES (%s,%s,%s,%s)',
+				(id, accession, description, evalue))
+			#print (data)
+			#print ("All correct")
+	except dbi.Error as e:
+		print("Error al ejecutar la select en la base de datos: ",e.diag.message_primary,file=sys.stderr)
+		raise
+	except:
+		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
+		raise
 
 def parseHmmerFile(conn):
 	fi = open('temp/tableHitsDomain.out')
