@@ -83,7 +83,7 @@ def createFasta(data):
 
 	fi.close()
 
-def insertDomain(ali_from, ali_to, domain_score, ivalue, conn):
+def insertDomain(ali_from, ali_to, domain_score, ivalue, conn, entry):
 	#print (ali_from +" | "+ali_to +" | "+domain_score +" | "+ivalue)
 	try:
 		with conn.cursor() as cur:
@@ -92,13 +92,15 @@ def insertDomain(ali_from, ali_to, domain_score, ivalue, conn):
 			#print (data)
 			#print ("All correct")
 	except dbi.Error as e:
-		print("Error al ejecutar la select en la base de datos: ",e.diag.message_primary,file=sys.stderr)
+		print("Entry: ", str(entry))
+		print("Error al insertar en la base de datos domain: ",e.diag.message_primary,file=sys.stderr)
 		raise
 	except:
+		print("Entry: ", str(entry))
 		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
 		raise
 
-def insertQuery(id, accession, description, evalue, conn):
+def insertQuery(id, accession, description, evalue, conn, entry):
 	#print(id +" | " + accession +" | " + description +" | " + evalue)
 	try:
 		with conn.cursor() as cur:
@@ -107,9 +109,11 @@ def insertQuery(id, accession, description, evalue, conn):
 			#print (data)
 			#print ("All correct")
 	except dbi.Error as e:
-		print("Error al ejecutar la select en la base de datos: ",e.diag.message_primary,file=sys.stderr)
+		print("Entry: ", str(entry))
+		print("Error al insertar en la base de datos hmmer: ",e.diag.message_primary,file=sys.stderr)
 		raise
 	except:
+		print("Entry: ", str(entry))
 		print("Error inesperado: ", sys.exc_info()[0],file=sys.stderr)
 		raise
 
@@ -118,6 +122,7 @@ def parseHmmerFile(conn):
 	fi.readline()
 	fi.readline()
 	fi.readline()
+	cont = 0
 	for line in fi:
 		fields = line.split()
 		'''
@@ -138,6 +143,7 @@ def parseHmmerFile(conn):
 		#ali_from, ali_to, domain_score, i-value
 		insertDomain(fields[17], fields[18], fields[12], fields[13], conn)
 		#insertDomains(attributesDomains, conn)
+		cont+=1
 		break
 	fi.close()
 
@@ -160,7 +166,7 @@ def main(hmmFile):
 		print("Done!")
 		#call(["hmmpress", hmmFile])
 		print("Ejecutando hmmscan... puede tardar (de hecho va a tardar)")
-		#call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])
+		call(["hmmscan","-o", "temp/hmmscan.out", "--tblout", "temp/tableHitsSequence.out", "--domtblout", "temp/tableHitsDomain.out", "--pfamtblout", "temp/tableHitsPfam.out", hmmFile, fastaFile])
 		print("Procesando fichero hmmscan...")
 		parseHmmerFile(conn)
 		print("Done!\n")
