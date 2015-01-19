@@ -20,10 +20,11 @@ dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERI
 def executeSelect(conn, inputString):
 	try:
 		with conn.cursor() as cur:
-			cur.execute('select * from jgi;') #Tu consulta Dabu! :)
+			cur.execute("select p.ID, p.accnumber, p.interpro from domains d, pfam p where d.AccTarget=p.accnumber and IDQuery="+inputString+";") #Tu consulta Dabu! :)
 			data = cur.fetchall();
 			#print (data)
 			#print ("All correct")
+			return data
 	except dbi.Error as e:
 		print("Error al ejecutar la select en la base de datos: ",e.diag.message_primary,file=sys.stderr)
 		raise
