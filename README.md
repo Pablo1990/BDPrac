@@ -1,4 +1,4 @@
-BDPrac
+Getting started
 ======
 Some DB practices done in the MSc Bioinformatics.
 
