@@ -7,7 +7,7 @@ More info http://www.masterbioinformatica.com/
 Authors: Pablo Vicente Munuera and David Sánchez Gómez 
 
 
-First execution, this will create the tables to your psql:
+First execution, this will setup your environment to the execution of the program:
 
 ```bash
 chmod a+x init.sh
