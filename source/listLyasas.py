@@ -20,7 +20,8 @@ dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERI
 def executeSelect(conn):
 	try:
 		with conn.cursor() as cur:
-			cur.execute("select p.ID, p.accnumber, p.interpro from domains d, pfam p, jgi j where j.ID=d.IDQuery and d.AccTarget=p.accnumber and (IDQuery="+inputString+" or j.descripcion='"+inputString+"');") #Tu consulta Dabu! :)
+			cur.execute("select count(d.id) from hmmer h, domains d where h.description like '%kinase%' and d.idquery=h.id;") #Tu consulta Dabu! :)
+			#prueba con alias: select avg(count_id) from (select count(d.id) as count_id) from domains d, hmmer h where h.description like '%kinase%' and d.idquery=h.id);
 
 			data = cur.fetchall();
 			#print (data)

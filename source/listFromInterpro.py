@@ -20,7 +20,7 @@ dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERI
 def executeSelect(conn, inputString):
 	try:
 		with conn.cursor() as cur:
-			cur.execute("select p.ID, p.accnumber, p.interpro from domains d, pfam p, jgi j where j.ID=d.IDQuery and d.AccTarget=p.accnumber and (IDQuery="+inputString+" or j.descripcion='"+inputString+"');") #Tu consulta Dabu! :)
+			cur.execute("select distinct j.ID from domains d, pfam p, jgi j where j.ID=d.IDQuery and p.accnumber=d.acctarget and p.interpro='"+inputString+"' ;") #Tu consulta Dabu! :)
 			
 			data = cur.fetchall();
 			#print (data)
