@@ -20,9 +20,11 @@ dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERI
 def executeSelect(conn):
 	try:
 		with conn.cursor() as cur:
-			cur.execute("select count(d.id) from hmmer h, domains d where h.description like '%kinase%' and d.idquery=h.id;") #Tu consulta Dabu! :)
-			#prueba con alias: select avg(count_id) from (select count(d.id) as count_id) from domains d, hmmer h where h.description like '%kinase%' and d.idquery=h.id);
-
+			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%kinase%' and d.idquery=h.id group by h.id) as counting;")
+			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%lyase%' and d.idquery=h.id group by h.id) as counting;")
+			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%ion channel%' and d.idquery=h.id group by h.id) as counting;")
+			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%receptor%' and d.idquery=h.id group by h.id) as counting;")
+			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%transport%' and d.idquery=h.id group by h.id) as counting;")
 			data = cur.fetchall();
 			#print (data)
 			#print ("All correct")
