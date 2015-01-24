@@ -29,6 +29,7 @@
 \usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
 \usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{graphicx}
 % These packages are all incorporated in the memoir class to one degree or another...
 
 %%% HEADERS & FOOTERS
@@ -70,17 +71,23 @@ Esto es un abstract. Y como tal, proceder\'a a relatarle, un esbozo de lo que es
 
 Your text goes here.
 
-\subsection{A subsection}
-
-More text.
-
 \section{Getting started}
 
 Aunque est\'a explicado como preparar el entorno para ejecutar nuestros programas, procederemos a hacerlo, igualmente, aqu\'i.
 
+\begin{figure}[ht!]
+\centering
+\includegraphics{design.jpg}
+\caption{A simple caption \label{overflow}}
+\end{figure}
+
 \section{Realizaci\'on de la pr\'actica}
 
-\subsection{Dise\~no de tablas}
+\subsection{Dise\~no de base de datos}
+
+El dise\~no de base de datos nos ha llevado de cabeza durante la mayor parte del desarrollo del trabajo, aunque eso trataremos m\'as debidamente en la secci\'on: problemas encontrados.
+
+
 
 \subsection{Problemas encontrados}
 
