@@ -52,3 +52,11 @@ docs/_build/
 
 # PyBuilder
 target/
+
+*.aux
+
+*.gz
+
+Documentation/latex/documentacion.synctex.gz
+
+Documentation/latex/documentacion.aux
