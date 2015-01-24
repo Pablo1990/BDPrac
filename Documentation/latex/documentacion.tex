@@ -78,7 +78,7 @@ Aunque est\'a explicado como preparar el entorno para ejecutar nuestros programa
 \begin{figure}
 \centering
 \includegraphics[width=15cm]{design}
-\caption{\label{ fig:Design}}
+\caption{Dise\~no final de la base de datos\label{fig:Design}}
 \end{figure}
 
 \section{Realizaci\'on de la pr\'actica}
@@ -86,6 +86,10 @@ Aunque est\'a explicado como preparar el entorno para ejecutar nuestros programa
 \subsection{Dise\~no de base de datos}
 
 El dise\~no de base de datos nos ha llevado de cabeza durante la mayor parte del desarrollo del trabajo, aunque eso trataremos m\'as debidamente en la secci\'on: problemas encontrados.
+
+Ha habido dos tablas claras desde el primero momento: la tabla jgi y la tabla Pfam. La primera representa al punto 1.a ''Procedente de jgi'' y corresponde a las prote\'inas y sus correspondientes secuencias y datos. Tiene como clave primaria el id, lo cual parece l\'ogico, ya que es el elemento m\'as representativo de cada prote\'ina. Aunque en un primer momento se puso tambi\'en el organismo, posteriormente se vi\'o que el id cambiaba con el organismo, con lo que no era necesaria la dupla id-organismo como clave primaria. Por otro lado, la tabla Pfam tambi\'en qued\'o bastante resuelta desde un principio. A parte de los datos que se nos informaba que deb\'ia contener esta tabla, lo \'unico que hab\'ia que pensar era la clave primaria y la posibilidad de claves alternativas. Las dos \'unicas cosas que no se pueden repetir es el ID y el accesion number. La combinaci\'on de ambas no era posible, ya que no para un mismo ID no va a haber 2 accesion number distintos, ser\'a siempre el mismo, con lo que se opta por poner una clave primaria (ID, pero podr\'ia haber sido perfectamente el accesion number) y una clave alternativa que ser\'a el accesion number.  Un dato curioso: intentando imitar lo que se di\'o en clase, se hizo una tabla para los accesion number y los posibles accesion numbers antiguos. Esta se acab\'o por eliminar, ya que no ten\'ia mucho sentido en el entorno de la pr\'actica.
+
+ El problema y la parte de las tablas que m\'as cambios han sufrido ha sido la tabla correspondiente al punto 1.c ''Datos provenientes de hmmer''. Ha llegado a haber hasta 3 tablas, s\'olo para esta secci\'on.
 
 
 
