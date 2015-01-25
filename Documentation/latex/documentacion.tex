@@ -69,11 +69,42 @@ Esto es un abstract. Y como tal, proceder\'a a relatarle, un esbozo de lo que es
 
 \section{Introducci\'on}
 
-Your text goes here.
+
 
 \section{Getting started}
 
 Aunque est\'a explicado como preparar el entorno para ejecutar nuestros programas, procederemos a hacerlo, igualmente, aqu\'i.
+
+\section{Realizaci\'on de la pr\'actica}
+
+\subsection{Herramientas utilizadas}
+
+- Sublime Text o geany. blablablablla
+
+- Texworks.
+
+- Github.
+
+- Python3.4.
+
+- Postgresql.
+
+\subsection{Organizaci\'on del trabajo}
+
+Aunque lo ideal hubiera sido utilizar \emph{pair-programming} para la realizaci\'on de esta pr\'actica, se ha optado por repartirnos el trabajo e intentar quedar lo m\'aximo posible para que no hubiera dudas, ni problemas, de modo que no se retrasara la velocidad de trabajo. B\'asicamente hemos intentado hacer ambos miembros de la pr\'actica, tanto algo de lo que ser\'ia m\'as bases de datos (consultas, dise\~no, etc...), como algo de la parte de programaci\'on, aprendiendo as\'i las partes necesarias que se requer\'ian para esta asignatura.
+
+\subsection{Dise\~no de base de datos}
+
+El dise\~no de base de datos nos ha llevado de cabeza durante la mayor parte del desarrollo del trabajo, aunque eso trataremos m\'as debidamente en la secci\'on: problemas encontrados.
+
+Ha habido dos tablas claras desde el primero momento: la tabla jgi y la tabla Pfam. La primera representa al punto 1.a ''Procedente de jgi'' y corresponde a las prote\'inas y sus correspondientes secuencias y datos. Tiene como clave primaria el id, lo cual parece l\'ogico, ya que es el elemento m\'as representativo de cada prote\'ina. Aunque en un primer momento se puso tambi\'en el organismo, posteriormente se vi\'o que el id cambiaba con el organismo, con lo que no era necesaria la dupla id-organismo como clave primaria. Al no tener algo en lo que basarnos para decidir los tipos, se ha tomado algo que no consumiera demasiado, pero que fuera m\'as que suficiente. Por ello, en cosas que pueden ser muy largas, como la secuencia y la descripci\'on, se han puesto \emph{Text} como tipo de dato. Los \emph{NOT NULL}, a\'un a sabiendas de que todo se deb\'ia meter, hay cosas que creemos que aunque no se metieran, no tendr\'ian un efecto adverso, a la hora de las b\'usquedas y filtrados.
+
+Por otro lado, la tabla Pfam tambi\'en qued\'o bastante resuelta desde un principio. A parte de los datos que se nos informaba que deb\'ia contener esta tabla, lo \'unico que hab\'ia que pensar era la clave primaria y la posibilidad de claves alternativas. Las dos \'unicas cosas que no se pueden repetir es el ID y el accesion number. La combinaci\'on de ambas no era posible, ya que no para un mismo ID no va a haber 2 accesion number distintos, ser\'a siempre el mismo, con lo que se opta por poner una clave primaria (ID, pero podr\'ia haber sido perfectamente el accesion number) y una clave alternativa que ser\'a el accesion number. Los tipos de esta tabla, excepto el ID, que debi\'o adecuarse a otra tabla, estaban espec\'ificados en la p\'agina web oficial de Pfam, as\'i que no tuvimos que realizar el esfuerzo nosotros. Un dato curioso: intentando imitar lo que se di\'o en clase, se hizo una tabla para los accesion number y los posibles accesion numbers antiguos. Esta se acab\'o por eliminar, ya que no ten\'ia mucho sentido en el entorno de la pr\'actica.
+
+El problema y la parte de las tablas que m\'as cambios han sufrido han sido las  correspondiente al punto 1.c ''Datos provenientes de hmmer''. Ha llegado a haber hasta 3 tablas, s\'olo para esta secci\'on. Finalmente, se vi\'o que con solo 2 tablas era suficiente. En primer lugar, tenemos la tabla hmmer, en la cual, guardamos la informaci\'on de: el ID de la prote\'ina con la que hacemos la query a hmmscan, que ser\'a un \emph{INT} ya que es un n\'umero; la descripci\'on de esta, que no tendr\'a  tope de caracteres; y el e-value que debido a que puede ser muy peque\~no, lo pondremos como \emph{float}. El ID de esta tabla ser\'a clave primaria y har\'a referencia al mismo ID de JGI. Por lo tanto, en la tabla HMMER deber\'an existir solo los ID, los cuales se encuentren tambi\'en almacenados en la tabla JGI. 
+
+La tabla Domains, deber\'ia tener un apartado a parte en la secci\'on de problemas. Solo esta tabla ha sufrido m\'as cambios que todas las dem\'as juntas. Esto es debido en gran parte a que no teniamos la experiencia necesaria, y hasta que no supimos como afrotar y que debiamos hacer en el punto 
+
 
 \begin{figure}
 \centering
@@ -81,19 +112,11 @@ Aunque est\'a explicado como preparar el entorno para ejecutar nuestros programa
 \caption{Dise\~no final de la base de datos\label{fig:Design}}
 \end{figure}
 
-\section{Realizaci\'on de la pr\'actica}
-
-\subsection{Dise\~no de base de datos}
-
-El dise\~no de base de datos nos ha llevado de cabeza durante la mayor parte del desarrollo del trabajo, aunque eso trataremos m\'as debidamente en la secci\'on: problemas encontrados.
-
-Ha habido dos tablas claras desde el primero momento: la tabla jgi y la tabla Pfam. La primera representa al punto 1.a ''Procedente de jgi'' y corresponde a las prote\'inas y sus correspondientes secuencias y datos. Tiene como clave primaria el id, lo cual parece l\'ogico, ya que es el elemento m\'as representativo de cada prote\'ina. Aunque en un primer momento se puso tambi\'en el organismo, posteriormente se vi\'o que el id cambiaba con el organismo, con lo que no era necesaria la dupla id-organismo como clave primaria. Por otro lado, la tabla Pfam tambi\'en qued\'o bastante resuelta desde un principio. A parte de los datos que se nos informaba que deb\'ia contener esta tabla, lo \'unico que hab\'ia que pensar era la clave primaria y la posibilidad de claves alternativas. Las dos \'unicas cosas que no se pueden repetir es el ID y el accesion number. La combinaci\'on de ambas no era posible, ya que no para un mismo ID no va a haber 2 accesion number distintos, ser\'a siempre el mismo, con lo que se opta por poner una clave primaria (ID, pero podr\'ia haber sido perfectamente el accesion number) y una clave alternativa que ser\'a el accesion number.  Un dato curioso: intentando imitar lo que se di\'o en clase, se hizo una tabla para los accesion number y los posibles accesion numbers antiguos. Esta se acab\'o por eliminar, ya que no ten\'ia mucho sentido en el entorno de la pr\'actica.
-
- El problema y la parte de las tablas que m\'as cambios han sufrido ha sido la tabla correspondiente al punto 1.c ''Datos provenientes de hmmer''. Ha llegado a haber hasta 3 tablas, s\'olo para esta secci\'on.
-
-
-
 \subsection{Problemas encontrados}
+
+\subsubsection{Problemas con el dise\~no}
+
+Como ya se ha mencionado anteriormente, la parte de las tablas correspondientes a la informaci\'on sacada desde \emph{hmmscan}, ha sido siempre la m\'as compleja y cambiante a lo largo del proyecto.
 
 \section{Conclusi\'on}
 

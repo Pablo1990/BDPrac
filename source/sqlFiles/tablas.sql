@@ -1,8 +1,9 @@
------------ JGI DB 1.a ----------- 
+--Todo este documento esta explicado debidamente
+--en la seccion 'realizacion de practica', subseccion
+--disenyo de base de datos, sita en 
+--Documentation/latex/documentacion.pdf
 
----CREATE TABLE SINONIMOS 
----(Oficial varchar(200) PRIMARY KEY,
----Sinonimo varchar(200) NOT NULL);
+----------- JGI DB 1.a ----------- 
 
 CREATE TABLE JGI 
 (ID int,
@@ -23,13 +24,6 @@ interpro VARCHAR (10),
 PRIMARY KEY (ID),
 UNIQUE (accnumber)
 );
-
-/*CREATE TABLE ACCNUMBERS (
-main_accnumber VARCHAR(12) PRIMARY KEY,
-accnumber VARCHAR(12) NOT NULL,
-FOREIGN KEY (main_accnumber)
-REFERENCES PFAM(accnumber)
-);*/
 
 
 ----------- HMMER DB 1.c ----------- 
