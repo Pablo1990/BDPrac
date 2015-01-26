@@ -48,7 +48,15 @@ def main(inputString):
 		raise
 
 	with conn:
-		print(executeSelect(conn, inputString))
+		out = executeSelect(conn, inputString)
+
+		if(out == []) :
+			print("\nLa proteína " + str(inputString) + " no ha sido analizada")
+		else :
+			print("\nID \t\t| \tAccesion number\t|\t Interpro")	
+			print("---------------------------------------------------")
+			for row in out:
+				print (row[0] + "\t|\t" + row[1] + "\t|\t"+row[2])
 
 if __name__ == "__main__":
 	if len(sys.argv)==2 :

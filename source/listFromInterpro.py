@@ -45,7 +45,15 @@ def main(inputString):
 		raise
 
 	with conn:
-		print(executeSelect(conn, inputString))
+		out = executeSelect(conn, inputString)
+
+		if(out == []) :
+			print("\nEl código interpro: " + str(inputString) + " no ha sido analizado")
+		else :
+			print("Código Interpro")
+			print("---------------")
+			for row in out:
+				print (row[0])
 
 if __name__ == "__main__":
 	if len(sys.argv)==2 :
