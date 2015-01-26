@@ -20,12 +20,17 @@ dbpass='masterpass'	# La contrasenya para vuestro nombre de usuario NUNCA DEBERI
 def executeSelect(conn):
 	try:
 		with conn.cursor() as cur:
-			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%kinase%' and d.idquery=h.id group by h.id) as counting;")
-			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%lyase%' and d.idquery=h.id group by h.id) as counting;")
-			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%ion channel%' and d.idquery=h.id group by h.id) as counting;")
-			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%receptor%' and d.idquery=h.id group by h.id) as counting;")
-			cur.execute("select avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%transport%' and d.idquery=h.id group by h.id) as counting;")
-			data = cur.fetchall();
+			data = []
+			cur.execute("select 'Kinasas', avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%kinase%' and d.idquery=h.id group by h.id) as counting;")
+			data.append(cur.fetchall())
+			cur.execute("select 'Liasas', avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%lyase%' and d.idquery=h.id group by h.id) as counting;")
+			data.append(cur.fetchall())
+			cur.execute("select 'Ion channel', avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%ion channel%' and d.idquery=h.id group by h.id) as counting;")
+			data.append(cur.fetchall())
+			cur.execute("select 'Receptor',avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%receptor%' and d.idquery=h.id group by h.id) as counting;")
+			data.append(cur.fetchall())
+			cur.execute("select 'Transport',avg(count_id), max(count_id), min(count_id), stddev(count_id) from (select count(d.id) as count_id, h.id from domains d, hmmer h where h.description like '%transport%' and d.idquery=h.id group by h.id) as counting;")
+			data.append(cur.fetchall())
 			#print (data)
 			#print ("All correct")
 			return data
@@ -48,7 +53,13 @@ def main():
 		raise
 
 	with conn:
-		print(executeSelect(conn, inputString))
+		out = executeSelect(conn)
+
+		print("\n      Nombre      |        Media        | max | min |    Desviación standard   ")
+		print("------------------+---------------------+-----+-----+--------------------------")
+		for row in out: 
+			for elem in row :
+				print("    " + str(elem[0]) + "    | "+str(elem[1]) + " | " + str(elem[2]) + " | " + str(elem[3]) + " | " + str(elem[4]))
 
 if __name__ == "__main__":
 	if len(sys.argv)==1 :
